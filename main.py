@@ -35,12 +35,32 @@ def read_item(id: int, q: Optional[str] = None):
 def add_todo(todo: ToDo):
     data_push = {
         'id': uuid.uuid4(),
-        'todo_name': todo.todo_name
+        'todo_name': todo.todo_name,
+        'date_start': todo.date_start,
+        'date_finish': todo.date_finish,
+        'status': False
     }
     todo_array.append(data_push)
     return {
         'code': 200,
         'status': 'OK',
         'message': 'OK',
-        'data': todo_array
+        'data': data_push
     } 
+    
+@app.get('/items')
+def get_todo():
+    if(len(todo_array) == 0):
+        return {
+            'code': 404,
+            'status': 'OK',
+            'message': 'DATA IS EMPTY',
+            'data': []
+        }
+    else:
+        return {
+            'code': 200,
+            'status': 'OK',
+            'message': 'OK',
+            'data': todo_array
+        }
